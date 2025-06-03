@@ -6,7 +6,8 @@ from rest_framework import status
 from rest_framework.response import Response
 
 
-from db.myproject.myapp.serializers import UserSerializer
+from db.myproject.myapp.models import MenuItem
+from db.myproject.myapp.serializers import MenuItemSerializer, UserSerializer
 
 
 def home_view(request):
@@ -91,3 +92,12 @@ def logout(request):
             {"status": "error", "message": "Invalid token", "details": str(e)},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+
+@api_view(["GET"])
+def browse_menu(request):
+    items = MenuItem.objects.all()
+    serializer = MenuItemSerializer(items, many=True)
+    return Response(
+        {"status": "success", "data": serializer.data}, status=status.HTTP_200_OK
+    )
