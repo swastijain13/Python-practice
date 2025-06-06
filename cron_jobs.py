@@ -1,9 +1,10 @@
+import crontab
 from crontab import CronTab
 
-cron = CronTab(user=True)
+print(crontab.__file__)
 
-job = cron.new(command='python /read_json.py')
-
-job.setall('0 3 * * *') #run everyday at 3 a.m
-
-cron.write()
+# cron = CronTab(user=True)
+# job = cron.new(command='echo "Hello from cron" >> /tmp/cron_output.txt', comment='test job')
+# job.minute.every(1)
+# cron.write()
+# print("Cron job created.")

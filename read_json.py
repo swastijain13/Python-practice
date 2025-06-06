@@ -62,4 +62,4 @@ import re
 with open('sample.json') as f:
     data = json.load(f)
 
-
+print(data)

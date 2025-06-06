@@ -2,6 +2,8 @@ from django.shortcuts import render
 import requests
 from bs4 import BeautifulSoup
 
+from .models import Anchors
+
 # Create your views here.
 
 def fetch_html(request):
@@ -16,6 +18,16 @@ def fetch_html(request):
                 soup = BeautifulSoup(response.content, 'html.parser')
                 # response.raise_for_status()
 
+                for a in soup.find_all('a'):
+                    href = a.get("href")
+                    name = a.get_text(strip=True)   
+
+                    if href:
+                        Anchors.objects.create(
+                            href = href,
+                            name = name
+                        )
+
                 title = soup.title.string if soup.title else 'No title found'
                 anchors = [a.get_text(strip=True) for a in soup.find_all('a') if a.get_text(strip=True)]
                 paragraphs = [p.get_text(strip=True) for p in soup.find_all('p') if p.get_text(strip=True)]
@@ -26,6 +38,7 @@ def fetch_html(request):
                     'paragraphs': paragraphs,
                     'url': url,
                 }
+
             except Exception as e:
                 context['error'] = str(e)
         elif action == 'clear':

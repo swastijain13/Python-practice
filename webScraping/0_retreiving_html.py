@@ -1,6 +1,6 @@
 import requests
 # import time
-from fake_useragent import UserAgent
+# from fake_useragent import UserAgent
 
 url = "https://www.flipkart.com/refrigerator-store?otracker=nmenu_sub_TVs%20%26%20Appliances_0_Refrigerators"
 
